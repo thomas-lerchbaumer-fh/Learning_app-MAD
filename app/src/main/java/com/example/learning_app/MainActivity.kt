@@ -119,7 +119,6 @@ fun MovieRow(movie: Movie){
                 elevation = 6.dp
             ){
                 Icon(imageVector =Icons.Default.AccountBox , contentDescription ="movie image" )
-
             }
             Column(
                 modifier = Modifier.align(alignment = Alignment.CenterVertically)
@@ -169,7 +168,7 @@ fun MovieDetails(movie: Movie){
             Text(text ="Genre: ${movie.genre}", style= MaterialTheme.typography.body2)
             Divider(color = Color.Gray, thickness = 1.dp, modifier = Modifier.padding(top =2.dp, bottom = 2.dp))
             Text(text ="Actor: ${movie.actors}", style= MaterialTheme.typography.body2)
-            Text(text ="Genre: ${movie.rating}", style= MaterialTheme.typography.body2)
+            Text(text ="Rating: ${movie.rating}", style= MaterialTheme.typography.body2)
         }
 
     }
