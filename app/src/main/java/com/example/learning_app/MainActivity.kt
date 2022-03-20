@@ -165,8 +165,8 @@ fun MovieDetails(movie: Movie){
         .padding(4.dp)) {
         Column() {
             Text(text ="Plot: ${movie.plot}", style= MaterialTheme.typography.body2)
-            Text(text ="Genre: ${movie.genre}", style= MaterialTheme.typography.body2)
             Divider(color = Color.Gray, thickness = 1.dp, modifier = Modifier.padding(top =2.dp, bottom = 2.dp))
+            Text(text ="Genre: ${movie.genre}", style= MaterialTheme.typography.body2)
             Text(text ="Actor: ${movie.actors}", style= MaterialTheme.typography.body2)
             Text(text ="Rating: ${movie.rating}", style= MaterialTheme.typography.body2)
         }
