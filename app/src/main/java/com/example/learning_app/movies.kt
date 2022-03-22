@@ -11,6 +11,7 @@ data class Movie(
     val images: List<String>,
     val rating: String)
 
+
 fun getMovies(): List<Movie> {
     return listOf(
         Movie(id = "tt0499549",
