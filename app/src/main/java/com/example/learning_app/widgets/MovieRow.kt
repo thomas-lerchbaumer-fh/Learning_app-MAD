@@ -36,7 +36,12 @@ import com.example.learning_app.viewmodels.FavouritesViewModel
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun MovieRow(movie: Movie, showDetails: Boolean = false,favouritesViewModel: FavouritesViewModel, onFav: Boolean ,onItemClick: (String) -> Unit) {
+fun MovieRow(
+    movie: Movie,
+    showDetails: Boolean = false,
+    onItemClick: (String) -> Unit = {},
+    favIcon: @Composable () -> Unit = {}
+) {
     var showDetails by remember {
         mutableStateOf(showDetails)
     }
@@ -91,13 +96,8 @@ fun MovieRow(movie: Movie, showDetails: Boolean = false,favouritesViewModel: Fav
                         modifier = Modifier.clickable { showDetails = !showDetails })
                 }
             }
-            if(!onFav) {
-                val isFav = favouritesViewModel.movieExists(movie)
 
-                AddToFavourites(movie, isFav) { movie ->
-                    favouritesViewModel.addMovie(movie)
-                }
-            }
+            favIcon()
         }
     }
 }

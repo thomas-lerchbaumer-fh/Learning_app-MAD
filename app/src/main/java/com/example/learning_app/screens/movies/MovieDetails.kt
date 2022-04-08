@@ -25,11 +25,16 @@ import com.example.learning_app.Movie
 import com.example.learning_app.getMovies
 import com.example.learning_app.navigation.SCREENS
 import com.example.learning_app.viewmodels.FavouritesViewModel
+import com.example.learning_app.widgets.AddToFavourites
 import com.example.learning_app.widgets.MovieRow
 
 
 @Composable
-fun MovieDetailsScreen(movieId: String?, navController: NavController, favViewModel : FavouritesViewModel) {
+fun MovieDetailsScreen(
+    movieId: String?,
+    navController: NavController,
+    favViewModel: FavouritesViewModel
+) {
 
     val movie: Movie = getMovies().single { movie -> movie.id == movieId }
     Scaffold(
@@ -49,7 +54,10 @@ fun MovieDetailsScreen(movieId: String?, navController: NavController, favViewMo
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            MovieRow(movie = movie, true,favViewModel, false) {
+            MovieRow(movie = movie, true) {
+                AddToFavourites(movie = movie, isFav = favViewModel.movieExists(movie)) {
+                    favViewModel.addMovie(movie)
+                }
             }
             Divider(
                 color = Color.Gray,

@@ -22,6 +22,7 @@ import com.example.learning_app.Movie
 import com.example.learning_app.getMovies
 import com.example.learning_app.navigation.SCREENS
 import com.example.learning_app.viewmodels.FavouritesViewModel
+import com.example.learning_app.widgets.AddToFavourites
 import com.example.learning_app.widgets.MovieRow
 
 @Composable
@@ -42,7 +43,18 @@ fun FavouriteScreen(navController: NavController, favViewModel : FavouritesViewM
         }) {
 
         val movieList = favViewModel.favMovies
-        if(!movieList.isEmpty()) MainMovieTheme2(movieList, navController = navController,favViewModel,true)
+        if(!movieList.isEmpty()){
+            LazyColumn() {
+                items(movieList) { item ->
+                    MovieRow(item, false, onItemClick = { movieId ->
+                        navController.navigate(route = "${SCREENS.MovieDetails}/$movieId")
+                    })
+
+                }
+
+            }
+            //MainMovieTheme2(movieList, navController = navController,favViewModel,true)
+        }
         else{
             Card(
                 modifier = Modifier.fillMaxWidth()

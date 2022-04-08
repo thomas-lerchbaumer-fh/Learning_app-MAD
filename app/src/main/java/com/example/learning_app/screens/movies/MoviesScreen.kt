@@ -18,10 +18,11 @@ import com.example.learning_app.getMovies
 import com.example.learning_app.navigation.SCREENS
 import com.example.learning_app.ui.theme.Learning_appTheme
 import com.example.learning_app.viewmodels.FavouritesViewModel
+import com.example.learning_app.widgets.AddToFavourites
 import com.example.learning_app.widgets.MovieRow
 
 @Composable
-fun MovieScreen(navController: NavController, favViewModel : FavouritesViewModel) {
+fun MovieScreen(navController: NavController, favViewModel: FavouritesViewModel) {
     Surface(
         color = MaterialTheme.colors.background
     ) {
@@ -66,17 +67,28 @@ fun MovieScreen(navController: NavController, favViewModel : FavouritesViewModel
 }
 
 @Composable
-fun MainMovieTheme2(data: List<Movie>, navController: NavController, favViewModel: FavouritesViewModel, onFav : Boolean = false) {
+fun MainMovieTheme2(
+    data: List<Movie>,
+    navController: NavController,
+    favViewModel: FavouritesViewModel,
+    onFav: Boolean = false
+) {
     LazyColumn() {
         items(data) { item ->
-            MovieRow(item,false,favViewModel, onFav) {
-                    movieId ->
+            MovieRow(item, false, onItemClick = { movieId ->
                 navController.navigate(route = "${SCREENS.MovieDetails}/$movieId")
-
+            }) {
+                AddToFavourites(movie = item, isFav = favViewModel.movieExists(item)){
+                    favViewModel.addMovie(item)
+                }
             }
-        }
-    }
 
+        }
+
+    }
 }
+
+
+
 
 
