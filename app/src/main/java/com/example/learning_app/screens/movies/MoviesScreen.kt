@@ -1,13 +1,8 @@
 package com.example.learning_app.screens.movies
 
-import android.util.Log
-import androidx.compose.animation.*
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -22,10 +17,11 @@ import com.example.learning_app.Movie
 import com.example.learning_app.getMovies
 import com.example.learning_app.navigation.SCREENS
 import com.example.learning_app.ui.theme.Learning_appTheme
+import com.example.learning_app.viewmodels.FavouritesViewModel
 import com.example.learning_app.widgets.MovieRow
 
 @Composable
-fun MovieScreen(navController: NavController) {
+fun MovieScreen(navController: NavController, favViewModel : FavouritesViewModel) {
     Surface(
         color = MaterialTheme.colors.background
     ) {
@@ -46,6 +42,7 @@ fun MovieScreen(navController: NavController) {
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
+
                                     Icon(
                                         imageVector = Icons.Default.Favorite,
                                         contentDescription = "fav icon",
@@ -63,17 +60,19 @@ fun MovieScreen(navController: NavController) {
                     })
             }
         ) {
-            MainMovieTheme2(getMovies(), navController = navController);
+            MainMovieTheme2(getMovies(), navController = navController, favViewModel);
         }
     }
 }
 
 @Composable
-fun MainMovieTheme2(data: List<Movie>, navController: NavController) {
+fun MainMovieTheme2(data: List<Movie>, navController: NavController, favViewModel: FavouritesViewModel, onFav : Boolean = false) {
     LazyColumn() {
         items(data) { item ->
-            MovieRow(item) { movieId ->
+            MovieRow(item,false,favViewModel, onFav) {
+                    movieId ->
                 navController.navigate(route = "${SCREENS.MovieDetails}/$movieId")
+
             }
         }
     }

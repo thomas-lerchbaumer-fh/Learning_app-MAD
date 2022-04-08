@@ -1,5 +1,6 @@
 package com.example.learning_app.widgets
 
+import android.util.Log
 import androidx.compose.animation.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -10,6 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
@@ -17,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -28,11 +31,12 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.learning_app.Movie
 import com.example.learning_app.R
+import com.example.learning_app.viewmodels.FavouritesViewModel
 
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun MovieRow(movie: Movie, showDetails: Boolean = false, onItemClick: (String) -> Unit) {
+fun MovieRow(movie: Movie, showDetails: Boolean = false,favouritesViewModel: FavouritesViewModel, onFav: Boolean ,onItemClick: (String) -> Unit) {
     var showDetails by remember {
         mutableStateOf(showDetails)
     }
@@ -86,9 +90,14 @@ fun MovieRow(movie: Movie, showDetails: Boolean = false, onItemClick: (String) -
                         contentDescription = "arrow down",
                         modifier = Modifier.clickable { showDetails = !showDetails })
                 }
-
             }
+            if(!onFav) {
+                val isFav = favouritesViewModel.movieExists(movie)
 
+                AddToFavourites(movie, isFav) { movie ->
+                    favouritesViewModel.addMovie(movie)
+                }
+            }
         }
     }
 }
@@ -97,7 +106,7 @@ fun MovieRow(movie: Movie, showDetails: Boolean = false, onItemClick: (String) -
 fun MovieDetails(movie: Movie) {
     Box(
         modifier = Modifier
-            .fillMaxWidth()
+            .width(200.dp)
             .padding(4.dp)
     ) {
         Column() {
